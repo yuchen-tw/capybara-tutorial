@@ -36,9 +36,11 @@ RSpec.feature 'post feature', type: :feature do
 
      on_page_with :top_ten_list do |top_ten_page|
         expect(top_ten_page).to have_content("TOP 10 Posts")
-        expect(top_ten_page).not_to have_content("initialize component")
-        expect(top_ten_page).not_to have_content("start loading...")
+        expect(top_ten_page.top_list_tips).not_to have_content("initialize component")
+        expect(top_ten_page.top_list_tips).not_to have_content("start loading...")
         expect(top_ten_page).to have_content("my updated post")
+        expect(top_ten_page.top_lists.length).to eq(1)
+        expect(top_ten_page.fisrt).to have_content('my updated post')
     end
 
     on_page_with :post_list do |page|
@@ -47,9 +49,12 @@ RSpec.feature 'post feature', type: :feature do
 
     on_page_with :new_post do |update_page|
         expect(update_page).to have_content('Editing Post')
+        
         update_page.perform :fill_post, 'my edit post', 'Test Edit Post'
         update_page.update_post_button.click
+        
         expect(update_page.notice_message).to eq('Post was successfully updated.')
+        
         update_page.back_link.click
     end
 
