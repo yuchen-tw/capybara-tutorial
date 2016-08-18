@@ -33,5 +33,23 @@ RSpec.feature 'post feature', type: :feature do
         expect(page.title).to have_content('my updated post')
         expect(page.content).to have_content('I wanna be the full-stack dev yep')
     end
+
+     on_page_with :top_ten_list do |top_ten_page|
+        expect(top_ten_page).to have_content("TOP 10 Posts")
+        expect(top_ten_page).not_to have_content("initialize component")
+        expect(top_ten_page).not_to have_content("start loading...")
+        expect(top_ten_page).to have_content("my updated post")
+    end
+
+    on_page_with :post_list do |page|
+       page.edit_post_link.click
+    end
+
+    on_page_with :new_post do |update_page|
+        expect(update_page).to have_content('Editing Post')
+        update_page.perform :fill_post, 'my edit post', 'Test Edit Post'
+        update_page.update_post_button.click
+    end
+
   end
 end
