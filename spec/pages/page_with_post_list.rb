@@ -24,4 +24,16 @@ module PageWithPostList
 	def edit_post_link
 		find_link('Edit')
 	end
+
+	def destory_post_link
+		find_link('Destroy')
+	end
+	
+	def destory_accept
+		page.driver.browser.switch_to.alert.accept  
+	end
+
+	def destory_deny
+		page.driver.browser.switch_to.alert.dismiss
+	end
 end

@@ -49,7 +49,26 @@ RSpec.feature 'post feature', type: :feature do
         expect(update_page).to have_content('Editing Post')
         update_page.perform :fill_post, 'my edit post', 'Test Edit Post'
         update_page.update_post_button.click
+        expect(update_page.notice_message).to eq('Post was successfully updated.')
+        update_page.back_link.click
     end
 
+    on_page_with :post_list do |page|
+		expect(page.title).to have_content('my edit post')
+		expect(page.content).to have_content('Test Edit Post')
+       	
+		page.destory_post_link.click
+		page.destory_deny
+       
+		expect(page.posts_in_list.length).to eq(1)
+		expect(page.title).to have_content('my edit post')
+		expect(page.content).to have_content('Test Edit Post')
+
+		page.destory_post_link.click
+		page.destory_accept
+
+		expect(page.posts_in_list.length).to eq(0)
+		expect(page).to have_content('Post was successfully destroyed.')
+    end
   end
 end
