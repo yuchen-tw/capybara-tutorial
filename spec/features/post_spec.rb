@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'post feature', type: :feature do
 
-  scenario 'create new post' do
+  scenario 'create/edit/destory post' do
     visit '/posts'
 
     on_page_with :post_list do |page|
